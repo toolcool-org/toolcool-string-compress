@@ -1,0 +1,6 @@
+- index.html with examples
+- API
+- docs
+- add to github
+- typescript types
+- add analytics - '... which is 77% of the original file size, or a compression ratio of 1.3'.
