@@ -1,6 +1,7 @@
 import TCEncoder from './encoder';
+import TCDecoder from './decoder';
 
-describe('Compress', () => {
+describe('Encode', () => {
     test('a', () => {
         expect(TCEncoder(`a`)).toStrictEqual(`a`);
     });
@@ -46,6 +47,59 @@ THAT SAM-I-AM! THAT SAM-I-AM!`, () => {
 THAT SAM-I-AM! THAT SAM-I-AM!`)).toStrictEqual(`I AM SAM. <10,10>SAM I AM.
 THAT SAM-I-AM! <15,14>`);
     });
+});
+
+describe('Decode', () => {
+    test('a', () => {
+        expect(TCDecoder(`a`)).toStrictEqual(`a`);
+    });
+
+    test('aa', () => {
+        expect(TCDecoder(`aa`)).toStrictEqual(`aa`);
+    });
+
+    test('aaaaaa', () => {
+        expect(TCDecoder(`aaaaaa`)).toStrictEqual(`aaaaaa`);
+    });
+
+
+    test('a<1,9>', () => {
+        expect(TCDecoder(`a<1,9>`)).toStrictEqual(`aaaaaaaaaa`);
+    });
+
+    test('abbbbbbbcabbbbbbb', () => {
+        expect(TCDecoder(`ab<1,6>c<9,8>`)).toStrictEqual(`abbbbbbbcabbbbbbb`);
+    });
+
+    test('I AM SAM.', () => {
+        expect(TCDecoder(`I AM SAM.`)).toStrictEqual(`I AM SAM.`);
+    });
+
+    test('I AM SAM. <10,10>', () => {
+        expect(TCDecoder(`I AM SAM. <10,10>`)).toStrictEqual(`I AM SAM. I AM SAM. `);
+    });
+
+    test('I AM SAM. <10,10>SAM I AM', () => {
+        expect(TCDecoder(`I AM SAM. <10,10>SAM I AM.`)).toStrictEqual(`I AM SAM. I AM SAM. SAM I AM.`);
+    });
+
+    test(`I AM SAM.
+<10,9>`, () => {
+        expect(TCDecoder(`I AM SAM.
+<10,9>`)).toStrictEqual(`I AM SAM.
+I AM SAM.`);
+    });
+
+    test(`I AM SAM. <10,10>SAM I AM.
+THAT SAM-I-AM! <15,14>`, () => {
+        expect(TCDecoder(`I AM SAM. <10,10>SAM I AM.
+THAT SAM-I-AM! <15,14>`)).toStrictEqual(`I AM SAM. I AM SAM. SAM I AM.
+THAT SAM-I-AM! THAT SAM-I-AM!`);
+    });
+});
+
+describe('Encoder - Decoder Connection', () => {
+
 });
 
 /*

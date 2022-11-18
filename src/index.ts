@@ -1,9 +1,12 @@
 import TCEncoder from './encoder';
+import TCDecoder from './decoder';
 
 declare global {
     interface Window {
-        TCCompress: typeof TCEncoder;
+        TCEncoder: typeof TCEncoder;
+        TCDecoder: typeof TCDecoder;
     }
 }
 
-window.TCCompress = TCEncoder;
+window.TCEncoder = TCEncoder;
+window.TCDecoder = TCDecoder;
